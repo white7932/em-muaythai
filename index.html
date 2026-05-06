@@ -566,7 +566,7 @@ function updateStats() {
   const tm = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}`;
   let cnt = 0;
   members.forEach(m => cnt += m.attendance.filter(a=>a.date.startsWith(tm)).length);
-  cnt += todayAttendance.filter(a=>a.date.startsWith(tm)).length;
+ 
   document.getElementById('stat-month').textContent = cnt;
 }
 
