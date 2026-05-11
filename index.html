@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -7,8 +5,6 @@
   <title>EM무에타이</title>
 
 <style>
-
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --red: #D85A30; --red-light: #FAECE7; --red-dark: #993C1D;
@@ -70,7 +66,7 @@
   .key-btn.del { background: var(--amber-light); color: var(--amber-dark); font-size: 14px; }
   .key-btn.confirm { background: var(--red); color: #fff; font-size: 14px; font-weight: 700; border-color: var(--red-dark); }
   .key-btn.confirm:active { background: var(--red-dark); }
-  .success-pop { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: var(--green); color: #fff; padding: 20px 32px; border-radius: 16px; font-size: 18px; font-weight: 700; text-align: center; z-index: 99; }
+  .success-pop { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: var(--green); color: #fff; padding: 20px 32px; border-radius: 16px; font-size: 18px; font-weight: 700; text-align: center; z-index: 99; white-space: pre-line; }
   .attend-right { display: flex; flex-direction: column; gap: 12px; }
   .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .stat-card { background: var(--card); border-radius: 12px; border: 0.5px solid var(--border); padding: 14px 16px; }
@@ -81,7 +77,7 @@
   .recent-card { background: var(--card); border-radius: 12px; border: 0.5px solid var(--border); padding: 16px; flex: 1; overflow: hidden; }
   .section-head { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
   .attend-list { display: flex; flex-direction: column; gap: 6px; max-height: 360px; overflow-y: auto; }
-  .attend-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: var(--gray-light); border-radius: 8px; }
+  .attend-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: var(--gray-light); border-radius: 8px; cursor: pointer; }
   .attend-avatar { width: 32px; height: 32px; border-radius: 50%; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .attend-name { font-size: 13px; font-weight: 600; color: var(--text); }
   .attend-time { margin-left: auto; font-size: 12px; color: var(--text2); }
@@ -111,8 +107,13 @@
   .tag.amber { background: var(--amber-light); color: var(--amber-dark); }
   .tag.gray { background: var(--gray-light); color: var(--gray-dark); }
   .mc-next-pay { margin-top: 8px; font-size: 11px; color: var(--text2); display: flex; align-items: center; gap: 4px; }
-  .pay-btn { margin-top: 8px; width: 100%; background: var(--green-light); color: var(--green-dark); border: 0.5px solid rgba(29,158,117,0.3); border-radius: 8px; padding: 7px; font-size: 12px; font-weight: 700; cursor: pointer; }
-  .pay-btn:hover { background: var(--green); color: #fff; }
+
+  /* 결제 버튼 스타일 */
+  .pay-btn-active { margin-top: 8px; width: 100%; background: var(--green-light); color: var(--green-dark); border: 0.5px solid rgba(29,158,117,0.3); border-radius: 8px; padding: 7px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .pay-btn-active:hover { background: var(--green); color: #fff; }
+  .pay-btn-done { margin-top: 8px; width: 100%; background: var(--gray-light); color: var(--gray); border: 0.5px solid var(--border); border-radius: 8px; padding: 7px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .pay-btn-done:hover { background: var(--red-light); color: var(--red-dark); }
+
   .admin-logout-bar { display: flex; justify-content: flex-end; padding: 8px 16px 0; }
   .logout-btn { background: none; border: 0.5px solid var(--border); border-radius: 8px; padding: 5px 12px; font-size: 12px; color: var(--text2); cursor: pointer; display: flex; align-items: center; gap: 4px; }
   .logout-btn:hover { background: var(--gray-light); }
@@ -132,13 +133,12 @@
   .cal-day.today .day-num { color: var(--red-dark); }
   .pay-dot { font-size: 10px; padding: 2px 4px; border-radius: 4px; margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .pay-dot.done { background: var(--green-light); color: var(--green-dark); text-decoration: line-through; opacity: 0.7; }
-  .adot {
-  font-size: 9px; padding: 1px 3px; border-radius: 3px;
-  margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis;
-  white-space: nowrap;
-  background: var(--blue-light); color: var(--blue-dark);
-}
   .pay-dot.todo { background: var(--red-light); color: var(--red-dark); }
+  /* 결제 달력 이름 클릭 가능 스타일 */
+  .pay-dot.clickable { cursor: pointer; transition: opacity 0.15s; }
+  .pay-dot.clickable:hover { opacity: 0.75; font-weight: 700; }
+
+  .adot { font-size: 9px; padding: 1px 3px; border-radius: 3px; margin-bottom: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; background: var(--blue-light); color: var(--blue-dark); }
   .cal-right { display: flex; flex-direction: column; gap: 12px; }
   .unpaid-card { background: var(--card); border-radius: 14px; border: 0.5px solid var(--border); padding: 16px; }
   .unpaid-list { display: flex; flex-direction: column; gap: 6px; max-height: 240px; overflow-y: auto; }
@@ -147,37 +147,10 @@
   .unpaid-due { font-size: 11px; color: var(--red); }
   .quick-pay-btn { font-size: 11px; background: var(--red); color: #fff; border: none; border-radius: 5px; padding: 3px 8px; cursor: pointer; font-weight: 700; }
 
-
-
-
-/* 선택된 날짜 강조 */
-.calendar-day.selected {
-    background-color: var(--primary-color) !important;
-    color: white !important;
-}
-
-/* 하단 출석 리스트 스타일 */
-#daily-attendance-list {
-    margin-top: 20px;
-    padding: 15px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-.attendance-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-}
-
-
-
-
   /* MODAL */
   .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 50; align-items: center; justify-content: center; }
   .modal-bg.show { display: flex; }
-  .modal { background: var(--card); border-radius: 20px; padding: 24px; width: 380px; max-width: 90vw; }
+  .modal { background: var(--card); border-radius: 20px; padding: 24px; width: 380px; max-width: 90vw; max-height: 90vh; overflow-y: auto; }
   .modal h3 { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 16px; }
   .form-group { margin-bottom: 12px; }
   .form-label { font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 4px; display: block; }
@@ -188,31 +161,28 @@
   .btn-save { flex: 2; background: var(--red); border: none; border-radius: 10px; padding: 11px; font-size: 14px; font-weight: 700; color: #fff; cursor: pointer; }
   .empty-state { text-align: center; padding: 32px; color: var(--text2); font-size: 14px; }
 
+  /* 결제 내역 모달 */
+  .pay-history-item { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--bg); border-radius: 10px; margin-bottom: 6px; border: 0.5px solid var(--border); }
+  .pay-history-item.editing { background: var(--blue-light); border-color: var(--blue); }
+  .ph-date { font-size: 13px; font-weight: 600; color: var(--text); flex: 1; }
+  .ph-amount { font-size: 13px; font-weight: 700; color: var(--green-dark); }
+  .ph-note { font-size: 11px; color: var(--text2); }
+  .ph-edit-btn { font-size: 11px; background: var(--blue-light); color: var(--blue-dark); border: none; border-radius: 5px; padding: 3px 8px; cursor: pointer; font-weight: 600; }
+  .ph-del-btn { font-size: 11px; background: var(--red-light); color: var(--red-dark); border: none; border-radius: 5px; padding: 3px 8px; cursor: pointer; font-weight: 600; }
 
-/* iOS 터치 최적화 */
-button, .key-btn, .pin-btn, .nav-tab, .filter-tab {
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent; /* 터치 시 회색 번짐 제거 */
-  touch-action: manipulation; /* 더블탭 확대 방지 */
-}
-
-/* 클릭 막는 레이어 방지 */
-.success-pop {
-  pointer-events: none;
-}
-
-/* iOS에서 버튼 눌림 체감 개선 */
-button:active {
-  transform: scale(0.96);
-}
-
-
-
-
-</style></head>
+  /* iOS 터치 최적화 */
+  button, .key-btn, .pin-btn, .nav-tab, .filter-tab {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .success-pop { pointer-events: none; }
+  button:active { transform: scale(0.96); }
+</style>
+</head>
 
 <body>
-<div class="app"> 
+<div class="app">
   <nav class="nav">
     <div class="nav-logo">
       <span class="em">EM</span>무에타이
@@ -290,82 +260,142 @@ button:active {
   </div>
 
   <!-- CALENDAR PAGE -->
- <div class="page" id="page-calendar">
-  <div id="calendar-lock-screen" class="lock-screen"></div>
-  <div id="calendar-content" style="display:none; flex-direction:column; flex:1;">
-    <div class="admin-logout-bar">
-      <button class="logout-btn" onclick="adminLogout('calendar')">🔒 잠금</button>
-    </div>
-    <div style="padding:16px; display:flex; flex-direction:column; gap:12px;">
-
-      <!-- 출석/결제 토글 버튼 -->
-      <div style="display:flex; gap:8px; background:#fff; border-radius:12px; padding:5px;
-                  border:0.5px solid var(--border); align-self:flex-start;">
-        <button id="tog-att" onclick="switchCal('att')"
-          style="padding:7px 20px; border-radius:8px; font-size:13px; font-weight:600;
-                 border:none; cursor:pointer; background:var(--red); color:#fff;">
-          📋 출석
-        </button>
-        <button id="tog-pay" onclick="switchCal('pay')"
-          style="padding:7px 20px; border-radius:8px; font-size:13px; font-weight:600;
-                 border:none; cursor:pointer; color:var(--text2); background:none;">
-          💳 결제
-        </button>
+  <div class="page" id="page-calendar">
+    <div id="calendar-lock-screen" class="lock-screen"></div>
+    <div id="calendar-content" style="display:none; flex-direction:column; flex:1;">
+      <div class="admin-logout-bar">
+        <button class="logout-btn" onclick="adminLogout('calendar')">🔒 잠금</button>
       </div>
-
-      <!-- 달력 -->
-      <div class="cal-card">
-        <div class="cal-header">
-          <button class="cal-nav" onclick="changeMonth(-1)">&#8249;</button>
-          <div class="cal-month" id="cal-month-label"></div>
-          <button class="cal-nav" onclick="changeMonth(1)">&#8250;</button>
+      <div style="padding:16px; display:flex; flex-direction:column; gap:12px;">
+        <!-- 출석/결제 토글 -->
+        <div style="display:flex; gap:8px; background:#fff; border-radius:12px; padding:5px; border:0.5px solid var(--border); align-self:flex-start;">
+          <button id="tog-att" onclick="switchCal('att')"
+            style="padding:7px 20px; border-radius:8px; font-size:13px; font-weight:600; border:none; cursor:pointer; background:var(--red); color:#fff;">
+            📋 출석
+          </button>
+          <button id="tog-pay" onclick="switchCal('pay')"
+            style="padding:7px 20px; border-radius:8px; font-size:13px; font-weight:600; border:none; cursor:pointer; color:var(--text2); background:none;">
+            💳 결제
+          </button>
         </div>
-        <div class="cal-grid" id="cal-grid"></div>
+
+        <!-- 달력 -->
+        <div class="cal-card">
+          <div class="cal-header">
+            <button class="cal-nav" onclick="changeMonth(-1)">&#8249;</button>
+            <div class="cal-month" id="cal-month-label"></div>
+            <button class="cal-nav" onclick="changeMonth(1)">&#8250;</button>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+        </div>
+
+        <!-- 하단 추가 정보 -->
+        <div id="cal-extra"></div>
       </div>
-
-      <!-- 하단 추가 정보 -->
-      <div id="cal-extra"></div>
     </div>
-
   </div>
-</div>
 
-<!-- ADD MEMBER MODAL -->
-<div class="modal-bg" id="modal-add">
-  <div class="modal">
-    <h3>수강생 추가</h3>
-    <div class="form-group"><label class="form-label">이름</label><input class="form-input" id="f-name" placeholder="홍길동" /></div>
-    <div class="form-group"><label class="form-label">전화번호 4자리</label><input class="form-input" id="f-phone" placeholder="1234" maxlength="4" type="tel" /></div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">수강료 (원)</label><input class="form-input" id="f-fee" placeholder="120000" type="number" /></div>
-      <div class="form-group"><label class="form-label">결제 주기</label>
-        <select class="form-input" id="f-cycle">
-          <option value="30">월 (30일)</option>
-          <option value="90">분기 (3개월)</option>
-          <option value="180">반기 (6개월)</option>
+  <!-- ADD/EDIT MEMBER MODAL -->
+  <div class="modal-bg" id="modal-add">
+    <div class="modal">
+      <h3 id="modal-add-title">수강생 추가</h3>
+      <div class="form-group"><label class="form-label">이름</label><input class="form-input" id="f-name" placeholder="홍길동" /></div>
+      <div class="form-group"><label class="form-label">전화번호 4자리</label><input class="form-input" id="f-phone" placeholder="1234" maxlength="4" type="tel" /></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">수강료 (원)</label><input class="form-input" id="f-fee" placeholder="120000" type="number" /></div>
+        <div class="form-group"><label class="form-label">결제 주기</label>
+          <select class="form-input" id="f-cycle">
+            <option value="30">월 (30일)</option>
+            <option value="90">분기 (3개월)</option>
+            <option value="180">반기 (6개월)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">다음 결제일</label><input class="form-input" id="f-nextpay" type="date" /></div>
+      <div class="form-group"><label class="form-label">수강 종류</label>
+        <select class="form-input" id="f-class">
+          <option value="무에타이">무에타이</option>
         </select>
       </div>
-    </div>
-    <div class="form-group"><label class="form-label">다음 결제일</label><input class="form-input" id="f-nextpay" type="date" /></div>
-    <div class="form-group"><label class="form-label">수강 종류</label>
-      <select class="form-input" id="f-class">
-        <option value="무에타이">무에타이</option>
-    
-      </select>
-    </div>
-<div class="form-group">
-  <label class="form-label">수강 등록일(가입일)</label>
-  <input class="form-input" id="f-joindate" type="date" />
-</div>
-    <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModal('modal-add')">취소</button>
-      <button class="btn-save" onclick="saveMember()">저장</button>
+      <div class="form-group">
+        <label class="form-label">수강 등록일(가입일)</label>
+        <input class="form-input" id="f-joindate" type="date" />
+      </div>
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="closeModal('modal-add')">취소</button>
+        <button class="btn-save" onclick="saveMember()">저장</button>
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- 결제 내역 모달 -->
+  <div class="modal-bg" id="modal-pay-history">
+    <div class="modal" style="width:460px;">
+      <h3 id="ph-title">결제 내역</h3>
+
+      <!-- 새 결제 내역 추가 폼 -->
+      <div style="background:var(--green-light); border-radius:12px; padding:14px; margin-bottom:16px; border:0.5px solid rgba(29,158,117,0.3);">
+        <div style="font-size:12px; font-weight:700; color:var(--green-dark); margin-bottom:10px;">+ 결제 내역 추가</div>
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">결제일</label>
+            <input class="form-input" id="ph-new-date" type="date" />
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">금액 (원)</label>
+            <input class="form-input" id="ph-new-amount" type="number" placeholder="150000" />
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:8px; margin-bottom:0">
+          <label class="form-label">메모 (선택)</label>
+          <input class="form-input" id="ph-new-note" placeholder="예: 1개월 수강료, 연장 등" />
+        </div>
+        <button onclick="addPayHistory()" style="margin-top:10px; width:100%; background:var(--green); color:#fff; border:none; border-radius:8px; padding:9px; font-size:13px; font-weight:700; cursor:pointer;">
+          ✓ 추가하기
+        </button>
+      </div>
+
+      <!-- 기존 결제 내역 목록 -->
+      <div style="font-size:12px; font-weight:700; color:var(--text2); margin-bottom:8px;">📋 결제 내역 목록</div>
+      <div id="ph-list" style="max-height:300px; overflow-y:auto;">
+        <div class="empty-state">결제 내역이 없습니다</div>
+      </div>
+
+      <!-- 인라인 수정 폼 (숨김) -->
+      <div id="ph-edit-form" style="display:none; background:var(--blue-light); border-radius:12px; padding:14px; margin-top:12px; border:0.5px solid rgba(55,138,221,0.3);">
+        <div style="font-size:12px; font-weight:700; color:var(--blue-dark); margin-bottom:10px;">✏️ 결제 내역 수정</div>
+        <div class="form-row">
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">결제일</label>
+            <input class="form-input" id="ph-edit-date" type="date" />
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">금액 (원)</label>
+            <input class="form-input" id="ph-edit-amount" type="number" />
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:8px; margin-bottom:0">
+          <label class="form-label">메모</label>
+          <input class="form-input" id="ph-edit-note" />
+        </div>
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <button onclick="cancelEditPH()" style="flex:1; background:var(--gray-light); border:none; border-radius:8px; padding:8px; font-size:13px; font-weight:600; color:var(--text2); cursor:pointer;">취소</button>
+          <button onclick="saveEditPH()" style="flex:2; background:var(--blue); border:none; border-radius:8px; padding:8px; font-size:13px; font-weight:700; color:#fff; cursor:pointer;">저장</button>
+        </div>
+      </div>
+
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="closeModal('modal-pay-history')">닫기</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- .app -->
 
 <script>
-
+// ────────────────────────────────────────────────
+// DATA & STORAGE
+// ────────────────────────────────────────────────
 const STORAGE_KEY = 'emmuaythai_data';
 
 function loadData() {
@@ -378,48 +408,15 @@ function loadData() {
 }
 
 function saveData() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({
-    members,
-    todayAttendance
-  }));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({ members, todayAttendance }));
 }
 
-let editTargetId = null;
-function deleteMember(id) {
-  const m = members.find(m => m.id === id);
-  if (!m) return;
-
-  if (!confirm(`${m.name} 수강생을 삭제하시겠습니까?`)) return;
-
-  members = members.filter(m => m.id !== id);
-
-  renderMembers();
-  updateStats();
-  renderCalendar();
-  renderUnpaid(); 
-  saveData();
-}
-function editMember(id) {
-  const m = members.find(m => m.id === id);
-  if (!m) return;
-
-  editTargetId = id;
-
-  document.getElementById('f-name').value = m.name;
-  document.getElementById('f-phone').value = m.phone;
-  document.getElementById('f-fee').value = m.fee;
-  document.getElementById('f-cycle').value = m.cycle;
-  document.getElementById('f-nextpay').value = m.nextPay;
-  document.getElementById('f-class').value = m.classType;
-  document.getElementById('f-joindate').value = m.joinDate || '';
-  
-openAddMember();
-}
 const ADMIN_PIN = '1234';
 const adminUnlocked = { members: false, calendar: false };
-let pendingPage = null;
-let pinBuffer = '';
-let currentTarget = null;
+const pinInputs = {};
+let editTargetId = null;
+let currentPayHistoryMemberId = null; // 결제내역 모달에서 사용 중인 수강생 ID
+let editingPHIdx = null; // 수정 중인 결제내역 인덱스
 
 const today = new Date();
 const todayStr = today.toISOString().slice(0,10);
@@ -427,16 +424,36 @@ const DOW = ['일','월','화','수','목','금','토'];
 const MONTH_KR = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 
 let members = [
-  { id:1, name:'김민준', phone:'2847', fee:120000, cycle:30, nextPay:'2026-05-10', paid:false, classType:'무에타이', joinDate:'2025-03-01', attendance:[] },
+  {
+    id: 1, name: '김민준', phone: '2847', fee: 120000, cycle: 30,
+    nextPay: '2026-05-10', paid: false, classType: '무에타이',
+    joinDate: '2025-03-01', attendance: [],
+    payHistory: [] // 결제 내역 배열
+  },
 ];
 let todayAttendance = [];
 let currentFilter = 'all';
-let calYear = 2026, calMonth = 5;
+let calYear = today.getFullYear();
+let calMonth = today.getMonth() + 1;
+let calMode = 'att';
 
-document.getElementById('today-badge').textContent = `${today.getMonth()+1}월 ${today.getDate()}일 (${DOW[today.getDay()]})`;
-document.getElementById('f-nextpay').value = todayStr;
+document.getElementById('today-badge').textContent =
+  `${today.getMonth()+1}월 ${today.getDate()}일 (${DOW[today.getDay()]})`;
 
-// ── LOCK SCREEN BUILDER ──
+// ────────────────────────────────────────────────
+// 결제 버튼 조건 판단
+// 이번 달 = 다음 결제일의 연-월이 오늘과 같은 달
+// ────────────────────────────────────────────────
+function isPayableThisMonth(member) {
+  const np = member.nextPay; // "YYYY-MM-DD"
+  const npYM = np.slice(0, 7);   // "YYYY-MM"
+  const todayYM = todayStr.slice(0, 7);
+  return npYM === todayYM;
+}
+
+// ────────────────────────────────────────────────
+// LOCK SCREEN
+// ────────────────────────────────────────────────
 function buildLockScreen(targetId) {
   const el = document.getElementById(targetId + '-lock-screen');
   el.innerHTML = `
@@ -445,10 +462,7 @@ function buildLockScreen(targetId) {
       <div class="lock-title">관리자 인증</div>
       <div class="lock-sub">4자리 비밀번호를 입력해주세요</div>
       <div class="pin-dots" id="dots-${targetId}">
-        <div class="pin-dot" id="dot-${targetId}-0"></div>
-        <div class="pin-dot" id="dot-${targetId}-1"></div>
-        <div class="pin-dot" id="dot-${targetId}-2"></div>
-        <div class="pin-dot" id="dot-${targetId}-3"></div>
+        ${[0,1,2,3].map(i=>`<div class="pin-dot" id="dot-${targetId}-${i}"></div>`).join('')}
       </div>
       <div class="pin-grid">
         ${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="pin-btn" onclick="pinPress('${targetId}','${n}')">${n}</button>`).join('')}
@@ -462,8 +476,6 @@ function buildLockScreen(targetId) {
   el.style.display = 'flex';
 }
 
-const pinInputs = {};
-
 function pinPress(target, n) {
   if (!pinInputs[target]) pinInputs[target] = '';
   if (pinInputs[target].length >= 4) return;
@@ -471,21 +483,18 @@ function pinPress(target, n) {
   updateDots(target);
   if (pinInputs[target].length === 4) pinConfirm(target);
 }
-
 function pinDel(target) {
   if (!pinInputs[target]) return;
   pinInputs[target] = pinInputs[target].slice(0,-1);
   updateDots(target);
 }
-
 function updateDots(target) {
   const len = (pinInputs[target]||'').length;
   for (let i=0;i<4;i++) {
     const d = document.getElementById(`dot-${target}-${i}`);
-    if (d) { d.classList.toggle('filled', i < len); d.classList.remove('error'); }
+    if (d) { d.classList.toggle('filled', i<len); d.classList.remove('error'); }
   }
 }
-
 function pinConfirm(target) {
   const val = pinInputs[target] || '';
   if (val.length < 4) return;
@@ -503,57 +512,50 @@ function pinConfirm(target) {
     }
     const err = document.getElementById(`err-${target}`);
     if (err) err.textContent = '비밀번호가 틀렸습니다. 다시 입력해주세요.';
-    setTimeout(() => {
-      updateDots(target);
-      if (err) err.textContent = '';
-    }, 1200);
+    setTimeout(() => { updateDots(target); if (err) err.textContent=''; }, 1200);
   }
 }
-
 function showAdminContent(target) {
-  const lock = document.getElementById(target + '-lock-screen');
-  const content = document.getElementById(target + '-content');
-  if (lock) lock.style.display = 'none';
-  if (content) { content.style.display = 'flex'; }
+  document.getElementById(target+'-lock-screen').style.display = 'none';
+  const content = document.getElementById(target+'-content');
+  content.style.display = 'flex';
   if (target === 'members') renderMembers();
-  if (target === 'calendar') { renderCalendar(); renderUnpaid(); }
+  if (target === 'calendar') { renderCalendar(); renderExtra(); }
 }
-
 function adminLogout(target) {
   adminUnlocked[target] = false;
   pinInputs[target] = '';
-  const content = document.getElementById(target + '-content');
-  if (content) content.style.display = 'none';
+  document.getElementById(target+'-content').style.display = 'none';
   buildLockScreen(target);
   updateLockIcons();
 }
-
 function updateLockIcons() {
   document.getElementById('lock-members').textContent = adminUnlocked.members ? '🔓' : '🔒';
   document.getElementById('lock-calendar').textContent = adminUnlocked.calendar ? '🔓' : '🔒';
 }
 
-// ── PAGE NAV ──
+// ────────────────────────────────────────────────
+// PAGE NAV
+// ────────────────────────────────────────────────
 function showPage(id, e) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
+  document.getElementById('page-'+id).classList.add('active');
   if (e) e.target.closest('.nav-tab').classList.add('active');
 }
-
 function requestAdmin(target, e) {
   showPage(target, e);
   if (adminUnlocked[target]) {
     showAdminContent(target);
   } else {
-    const lock = document.getElementById(target + '-lock-screen');
-    const content = document.getElementById(target + '-content');
-    if (content) content.style.display = 'none';
+    document.getElementById(target+'-content').style.display = 'none';
     buildLockScreen(target);
   }
 }
 
-// ── KEYPAD ──
+// ────────────────────────────────────────────────
+// KEYPAD (출석체크)
+// ────────────────────────────────────────────────
 let kpInput = '';
 function updateDisplay() {
   const disp = document.getElementById('kp-display');
@@ -568,29 +570,29 @@ function updateDisplay() {
     hint.textContent = `${4 - kpInput.length}자리 더 입력하세요`;
   }
 }
-function keyPress(n) { if (kpInput.length < 4) { kpInput += n; updateDisplay(); } }
-function keyDelete() { kpInput = kpInput.slice(0,-1); updateDisplay(); }
+function keyPress(n) { if (kpInput.length<4) { kpInput+=n; updateDisplay(); } }
+function keyDelete() { kpInput=kpInput.slice(0,-1); updateDisplay(); }
 function keyConfirm() {
-  if (kpInput.length !== 4) return;
-  const m = members.find(mb => mb.phone === kpInput);
-  if (!m) { kpInput = ''; updateDisplay(); return; }
-  const already = todayAttendance.find(a => a.id === m.id && a.date === todayStr);
-  if (already) { showPop(`${m.name} 님은 이미\n출석 처리 되었습니다`, 'amber'); kpInput = ''; updateDisplay(); return; }
+  if (kpInput.length!==4) return;
+  const m = members.find(mb=>mb.phone===kpInput);
+  if (!m) { kpInput=''; updateDisplay(); return; }
+  const already = todayAttendance.find(a=>a.id===m.id&&a.date===todayStr);
+  if (already) { showPop(`${m.name} 님은 이미\n출석 처리 되었습니다`,'amber'); kpInput=''; updateDisplay(); return; }
   const now = new Date();
   const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
   todayAttendance.push({ id:m.id, name:m.name, date:todayStr, time:timeStr });
+  if (!m.attendance) m.attendance = [];
   m.attendance.push({ date:todayStr, time:timeStr });
-saveData();
-
-  showPop(`${m.name} 님\n출석 완료! ✓`, 'green');
-  kpInput = ''; updateDisplay();
+  saveData();
+  showPop(`${m.name} 님\n출석 완료! ✓`,'green');
+  kpInput=''; updateDisplay();
   renderAttendList(); updateStats();
 }
 function showPop(msg, type) {
   const p = document.getElementById('success-pop');
-  p.textContent = msg; p.style.display = 'block';
+  p.textContent=msg; p.style.display='block';
   p.style.background = type==='green'?'var(--green)':type==='amber'?'var(--amber)':'var(--red)';
-  setTimeout(() => p.style.display='none', 2000);
+  setTimeout(()=>p.style.display='none', 2000);
 }
 function renderAttendList() {
   const el = document.getElementById('attend-list');
@@ -598,7 +600,11 @@ function renderAttendList() {
   if (!recs.length) { el.innerHTML='<div class="empty-state">아직 출석 기록이 없습니다</div>'; return; }
   el.innerHTML = recs.map(a => {
     const idx = members.findIndex(mb=>mb.id===a.id)%3;
-    const styles = ['background:var(--red-light);color:var(--red-dark)','background:var(--green-light);color:var(--green-dark)','background:var(--blue-light);color:var(--blue-dark)'];
+    const styles = [
+      'background:var(--red-light);color:var(--red-dark)',
+      'background:var(--green-light);color:var(--green-dark)',
+      'background:var(--blue-light);color:var(--blue-dark)'
+    ];
     return `<div class="attend-item" onclick="openAttendanceDetail(${a.id})">
       <div class="attend-avatar" style="${styles[idx]}">${a.name[0]}</div>
       <div><div class="attend-name">${a.name}</div></div>
@@ -607,186 +613,132 @@ function renderAttendList() {
     </div>`;
   }).join('');
 }
-
-
-
 function openAttendanceDetail(memberId) {
-  const m = members.find(m => m.id === memberId);
-  if (!m) return;
-
-  showMemberCalendar(m);
+  requestAdmin('calendar');
+  switchCal('att');
 }
-
-
-function showMemberCalendar(member) {
-  requestAdmin('calendar'); // 관리자 페이지 열기
-
-  const calGrid = document.getElementById('cal-grid');
-  const mo = `${calYear}-${String(calMonth).padStart(2,'0')}`;
-
-  const firstDay = new Date(calYear, calMonth-1, 1).getDay();
-  const daysInMonth = new Date(calYear, calMonth, 0).getDate();
-
-  let html = '';
-
-  for (let i=0; i<firstDay; i++) html += `<div class="cal-day"></div>`;
-
-  for (let d=1; d<=daysInMonth; d++) {
-    const dateStr = `${calYear}-${String(calMonth).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-
-    const attend = member.attendance.find(a => a.date === dateStr);
-
-    html += `
-      <div class="cal-day" onclick="editAttendance(${member.id}, '${dateStr}')">
-        <div class="day-num">${d}</div>
-        ${attend ? `<div class="pay-dot done">✓ 출석</div>` : ''}
-      </div>
-    `;
-  }
-
-  calGrid.innerHTML = html;
-  document.getElementById('cal-month-label').textContent = `${member.name} 출석 캘린더`;
-}
-
-
-function editAttendance(memberId, dateStr) {
-  const m = members.find(m => m.id === memberId);
-  if (!m) return;
-
-  const exists = m.attendance.find(a => a.date === dateStr);
-
-  if (exists) {
-    if (confirm('출석을 삭제할까요?')) {
-      m.attendance = m.attendance.filter(a => a.date !== dateStr);
-
-      // todayAttendance에서도 제거
-      todayAttendance = todayAttendance.filter(a => !(a.id === memberId && a.date === dateStr));
-
-      saveData();
-      renderCalendar();
-      renderAttendList();
-      updateStats();
-    }
-  } else {
-    if (confirm('출석을 추가할까요?')) {
-      m.attendance.push({ date: dateStr, time: '00:00' });
-
-      saveData();
-      renderCalendar();
-      renderAttendList();
-      updateStats();
-    }
-  }
-}
-
 function updateStats() {
   document.getElementById('stat-today').textContent = todayAttendance.filter(a=>a.date===todayStr).length;
   document.getElementById('stat-total').textContent = members.length;
   document.getElementById('stat-unpaid').textContent = members.filter(m=>!m.paid).length;
-  const tm = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}`;
+  const tm = todayStr.slice(0,7);
   let cnt = 0;
- members.forEach(m => {
-if (m.attendance) {
-cnt += m.attendance.filter(a => a.date.startsWith(tm)).length;
-}
-});
-
-document.getElementById('stat-month').textContent = cnt;
+  members.forEach(m => { if (m.attendance) cnt += m.attendance.filter(a=>a.date.startsWith(tm)).length; });
+  document.getElementById('stat-month').textContent = cnt;
 }
 
-// ── MEMBERS ──
-function setFilter(f,el) {
+// ────────────────────────────────────────────────
+// MEMBERS
+// ────────────────────────────────────────────────
+function setFilter(f, el) {
   currentFilter=f;
   document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('on'));
   el.classList.add('on'); renderMembers();
 }
+
 function renderMembers() {
   const q = document.getElementById('search-box').value.toLowerCase();
   let list = members;
   if (currentFilter==='unpaid') list=list.filter(m=>!m.paid);
-  if (currentFilter==='paid') list=list.filter(m=>m.paid);
+  if (currentFilter==='paid')   list=list.filter(m=>m.paid);
   if (q) list=list.filter(m=>m.name.includes(q)||m.phone.includes(q));
   const grid = document.getElementById('members-grid');
   if (!list.length) { grid.innerHTML='<div class="empty-state" style="grid-column:1/-1">검색 결과가 없습니다</div>'; return; }
-grid.innerHTML = list.map(m => `
-    <div class="member-card ${m.paid ? 'paid' : 'unpaid'}">
+
+  grid.innerHTML = list.map(m => {
+    // ★ 결제 버튼 조건 분기
+    const canPayNow = isPayableThisMonth(m);
+    let payBtnHtml = '';
+    if (m.paid) {
+      // 결제 완료 상태 → 취소 버튼 (연한 회색)
+      payBtnHtml = `<button class="pay-btn-done" onclick="togglePay(${m.id})">✓ 결제완료 (취소하려면 클릭)</button>`;
+    } else if (canPayNow) {
+      // 미결제 & 이번달 결제일 → 활성화된 결제 처리 버튼
+      payBtnHtml = `<button class="pay-btn-active" onclick="togglePay(${m.id})">💳 결제 처리</button>`;
+    } else {
+      // 미결제 & 결제일이 이번달 아님 → 비활성 안내 버튼
+      payBtnHtml = `<button class="pay-btn-done" style="opacity:0.5; cursor:default;" disabled>🗓 ${m.nextPay} 결제 예정</button>`;
+    }
+
+    return `
+    <div class="member-card ${m.paid?'paid':'unpaid'}">
       <div class="mc-top">
-        <div class="mc-avatar">${m.name[0]}</div>
+        <div class="mc-avatar" style="background:var(--red-light);color:var(--red-dark)">${m.name[0]}</div>
         <div>
           <div class="mc-name">${m.name}</div>
           <div class="mc-phone">${m.phone}</div>
         </div>
         <div style="margin-left:auto; display:flex; gap:5px;">
-          <button onclick="editMember(${m.id})" style="border:none; background:none;">✏️</button>
-          <button onclick="deleteMember(${m.id})" style="border:none; background:none;">🗑️</button>
+          <button onclick="editMember(${m.id})" style="border:none;background:none;cursor:pointer;">✏️</button>
+          <button onclick="deleteMember(${m.id})" style="border:none;background:none;cursor:pointer;">🗑️</button>
         </div>
       </div>
       <div class="mc-info">
-        <!-- 아래 줄이 가입일을 화면에 표시하는 부분입니다 -->
-        <span class="tag gray">등록일: ${m.joinDate || '미지정'}</span>
+        <span class="tag gray">등록일: ${m.joinDate||'미지정'}</span>
         <span class="tag amber">${m.classType}</span>
-        <span class="tag ${m.paid ? 'green' : 'red'}">${m.paid ? '결제완료' : '미결제'}</span>
+        <span class="tag ${m.paid?'green':'red'}">${m.paid?'결제완료':'미결제'}</span>
       </div>
       <div class="mc-next-pay">🗓 다음 결제일: ${m.nextPay}</div>
-      <button class="pay-btn" onclick="togglePay(${m.id})">${m.paid ? '결제 취소' : '결제 처리'}</button>
-    </div>
-  `).join('');
+      ${payBtnHtml}
+    </div>`;
+  }).join('');
 }
-
 
 function togglePay(id) {
-    // 1. 해당 ID를 가진 수강생 찾기
-    const idx = members.findIndex(m => m.id === id);
-    if (idx === -1) return;
+  const idx = members.findIndex(m=>m.id===id);
+  if (idx===-1) return;
+  members[idx].paid = !members[idx].paid;
 
-    // 2. 결제 상태 반전 (true -> false, false -> true)
-    members[idx].paid = !members[idx].paid;
+  // 결제 완료로 전환할 때 다음 결제일 자동 갱신 및 결제 내역 자동 기록
+  if (members[idx].paid) {
+    const m = members[idx];
+    // 결제 내역 자동 추가
+    if (!m.payHistory) m.payHistory = [];
+    m.payHistory.push({
+      date: todayStr,
+      amount: m.fee,
+      note: `${m.nextPay} 결제 처리`
+    });
+    // 다음 결제일 갱신
+    const next = new Date(m.nextPay);
+    next.setDate(next.getDate() + m.cycle);
+    m.nextPay = next.toISOString().slice(0,10);
+  }
 
-    // 3. 변경된 데이터 저장 및 화면 갱신
-    saveData();      // 로컬 스토리지 저장
-    renderMembers(); // 리스트 다시 그리기
-    updateStats();   // 상단 통계(결제 완료 인원 등) 갱신
+  saveData(); renderMembers(); updateStats();
 }
 
-function cancelPayment(id) {
-  const m = members.find(m => m.id === id);
+function deleteMember(id) {
+  const m = members.find(m=>m.id===id);
   if (!m) return;
-
-  if (!confirm(`${m.name} 결제를 취소할까요?`)) return;
-
-  m.paid = false;
-
-  // 이전 결제일로 되돌리기
-  const prev = new Date(m.nextPay);
-  prev.setDate(prev.getDate() - m.cycle);
-  m.nextPay = prev.toISOString().slice(0,10);
-
-  saveData();
-  renderMembers();
-  renderCalendar();
-  renderUnpaid();
-  updateStats();
+  if (!confirm(`${m.name} 수강생을 삭제하시겠습니까?`)) return;
+  members = members.filter(m=>m.id!==id);
+  renderMembers(); updateStats(); renderCalendar(); saveData();
 }
 
-
-function markPaid(id) {
-  const m = members.find(mb=>mb.id===id); if(!m) return;
-  m.paid=true;
-  const next=new Date(m.nextPay); next.setDate(next.getDate()+m.cycle);
-  m.nextPay=next.toISOString().slice(0,10);
-  renderMembers(); updateStats(); renderCalendar(); renderUnpaid();
-  showPop(`${m.name} 님 결제 완료!`,'green'); saveData();
+function editMember(id) {
+  const m = members.find(m=>m.id===id);
+  if (!m) return;
+  editTargetId = id;
+  document.getElementById('f-name').value = m.name;
+  document.getElementById('f-phone').value = m.phone;
+  document.getElementById('f-fee').value = m.fee;
+  document.getElementById('f-cycle').value = m.cycle;
+  document.getElementById('f-nextpay').value = m.nextPay;
+  document.getElementById('f-class').value = m.classType;
+  document.getElementById('f-joindate').value = m.joinDate||'';
+  document.getElementById('modal-add-title').textContent = '수강생 정보 수정';
+  document.getElementById('modal-add').classList.add('show');
 }
+
 function openAddMember() {
-const todayStr = new Date().toISOString().split('T')[0]; // 오늘 날짜 생성
-  
-if (!editTargetId) {
-    // 신규 추가 시 폼 초기화
+  if (!editTargetId) {
     document.getElementById('f-name').value = '';
     document.getElementById('f-phone').value = '';
     document.getElementById('f-fee').value = '150000';
     document.getElementById('f-nextpay').value = todayStr;
-    document.getElementById('f-joindate').value = todayStr; // 오늘 날짜로 세팅
+    document.getElementById('f-joindate').value = todayStr;
+    document.getElementById('modal-add-title').textContent = '수강생 추가';
   }
   document.getElementById('modal-add').classList.add('show');
 }
@@ -796,320 +748,314 @@ function closeModal(id) {
   editTargetId = null;
 }
 
-function closeModal(id) { document.getElementById(id).classList.remove('show'); editTargetId = null;}
 function saveMember() {
-
-// 1. 입력창에 적힌 값들 가져오기
-  const name = document.getElementById('f-name').value;
-  const phone = document.getElementById('f-phone').value;
-  const fee = document.getElementById('f-fee').value;
-  const cycle = document.getElementById('f-cycle').value;
-  const nextPay = document.getElementById('f-nextpay').value;
-  const classType = document.getElementById('f-class').value;
-  const joinDate = document.getElementById('f-joindate').value; // ★가입일 가져오기
-
-  if (!name || !phone) { alert('이름과 번호를 입력하세요'); return; }
-
+  const name     = document.getElementById('f-name').value;
+  const phone    = document.getElementById('f-phone').value;
+  const fee      = document.getElementById('f-fee').value;
+  const cycle    = document.getElementById('f-cycle').value;
+  const nextPay  = document.getElementById('f-nextpay').value;
+  const classType= document.getElementById('f-class').value;
+  const joinDate = document.getElementById('f-joindate').value;
+  if (!name||!phone) { alert('이름과 번호를 입력하세요'); return; }
   if (editTargetId) {
-    // 2. 수정 모드일 때
-    const idx = members.findIndex(m => m.id === editTargetId);
-    members[idx] = { 
-      ...members[idx], 
-      name, phone, fee: parseInt(fee), cycle: parseInt(cycle), 
-      nextPay, classType, joinDate // ★정보 갱신
-    };
+    const idx = members.findIndex(m=>m.id===editTargetId);
+    members[idx] = { ...members[idx], name, phone, fee:parseInt(fee), cycle:parseInt(cycle), nextPay, classType, joinDate };
   } else {
-    // 3. 신규 추가 모드일 때
-    const newMember = {
-      id: Date.now(),
-      name, phone, fee: parseInt(fee), cycle: parseInt(cycle),
-      nextPay, classType, joinDate, // ★새 정보 저장
-      paid: false,
-      attendance: []
-    };
-    members.push(newMember);
+    members.push({ id:Date.now(), name, phone, fee:parseInt(fee), cycle:parseInt(cycle), nextPay, classType, joinDate, paid:false, attendance:[], payHistory:[] });
   }
-
-  saveData();        // 브라우저 저장
-  renderMembers();   // 화면 다시 그리기
-  updateStats();     // 통계 업데이트
-  closeModal('modal-add'); // 창 닫기
-  editTargetId = null;
+  saveData(); renderMembers(); updateStats(); closeModal('modal-add'); editTargetId=null;
 }
 
+// ────────────────────────────────────────────────
+// 결제 내역 모달
+// ────────────────────────────────────────────────
+function openPayHistory(memberId) {
+  const m = members.find(m=>m.id===memberId);
+  if (!m) return;
+  currentPayHistoryMemberId = memberId;
+  editingPHIdx = null;
 
-// ── CALENDAR ──
-let calMode = 'att';
+  document.getElementById('ph-title').textContent = `💳 ${m.name} 님 결제 내역`;
+  document.getElementById('ph-new-date').value = todayStr;
+  document.getElementById('ph-new-amount').value = m.fee;
+  document.getElementById('ph-new-note').value = '';
+  document.getElementById('ph-edit-form').style.display = 'none';
 
+  renderPayHistoryList(m);
+  document.getElementById('modal-pay-history').classList.add('show');
+}
+
+function renderPayHistoryList(m) {
+  if (!m) m = members.find(mb=>mb.id===currentPayHistoryMemberId);
+  if (!m) return;
+  if (!m.payHistory) m.payHistory = [];
+  const list = [...m.payHistory].reverse(); // 최신순
+  const el = document.getElementById('ph-list');
+  if (!list.length) {
+    el.innerHTML = '<div class="empty-state">결제 내역이 없습니다</div>';
+    return;
+  }
+  el.innerHTML = list.map((ph, revIdx) => {
+    const realIdx = m.payHistory.length - 1 - revIdx; // 실제 배열 인덱스
+    return `
+    <div class="pay-history-item" id="ph-item-${realIdx}">
+      <div style="flex:1">
+        <div class="ph-date">📅 ${ph.date}</div>
+        <div class="ph-note">${ph.note||''}</div>
+      </div>
+      <div class="ph-amount">${Number(ph.amount).toLocaleString()}원</div>
+      <button class="ph-edit-btn" onclick="startEditPH(${realIdx})">수정</button>
+      <button class="ph-del-btn" onclick="deletePH(${realIdx})">삭제</button>
+    </div>`;
+  }).join('');
+}
+
+function addPayHistory() {
+  const m = members.find(mb=>mb.id===currentPayHistoryMemberId);
+  if (!m) return;
+  const date   = document.getElementById('ph-new-date').value;
+  const amount = document.getElementById('ph-new-amount').value;
+  const note   = document.getElementById('ph-new-note').value;
+  if (!date||!amount) { alert('결제일과 금액을 입력하세요'); return; }
+  if (!m.payHistory) m.payHistory = [];
+  m.payHistory.push({ date, amount:parseInt(amount), note });
+  m.payHistory.sort((a,b)=>a.date.localeCompare(b.date)); // 날짜순 정렬
+  saveData();
+  renderPayHistoryList(m);
+  document.getElementById('ph-new-note').value = '';
+}
+
+function startEditPH(idx) {
+  const m = members.find(mb=>mb.id===currentPayHistoryMemberId);
+  if (!m||!m.payHistory[idx]) return;
+  editingPHIdx = idx;
+  const ph = m.payHistory[idx];
+  document.getElementById('ph-edit-date').value   = ph.date;
+  document.getElementById('ph-edit-amount').value = ph.amount;
+  document.getElementById('ph-edit-note').value   = ph.note||'';
+  document.getElementById('ph-edit-form').style.display = 'block';
+  // 수정 중인 항목 강조
+  document.querySelectorAll('.pay-history-item').forEach(el=>el.classList.remove('editing'));
+  const target = document.getElementById(`ph-item-${idx}`);
+  if (target) target.classList.add('editing');
+}
+
+function cancelEditPH() {
+  editingPHIdx = null;
+  document.getElementById('ph-edit-form').style.display = 'none';
+  document.querySelectorAll('.pay-history-item').forEach(el=>el.classList.remove('editing'));
+}
+
+function saveEditPH() {
+  if (editingPHIdx === null) return;
+  const m = members.find(mb=>mb.id===currentPayHistoryMemberId);
+  if (!m) return;
+  m.payHistory[editingPHIdx] = {
+    date:   document.getElementById('ph-edit-date').value,
+    amount: parseInt(document.getElementById('ph-edit-amount').value),
+    note:   document.getElementById('ph-edit-note').value
+  };
+  m.payHistory.sort((a,b)=>a.date.localeCompare(b.date));
+  saveData();
+  cancelEditPH();
+  renderPayHistoryList(m);
+}
+
+function deletePH(idx) {
+  const m = members.find(mb=>mb.id===currentPayHistoryMemberId);
+  if (!m||!m.payHistory[idx]) return;
+  if (!confirm('이 결제 내역을 삭제할까요?')) return;
+  m.payHistory.splice(idx, 1);
+  saveData();
+  renderPayHistoryList(m);
+}
+
+// ────────────────────────────────────────────────
+// CALENDAR
+// ────────────────────────────────────────────────
 function switchCal(mode) {
   calMode = mode;
   const attBtn = document.getElementById('tog-att');
   const payBtn = document.getElementById('tog-pay');
-  if (attBtn) {
-    attBtn.style.background = mode === 'att' ? 'var(--red)' : 'none';
-    attBtn.style.color      = mode === 'att' ? '#fff' : 'var(--text2)';
-    payBtn.style.background = mode === 'pay' ? 'var(--red)' : 'none';
-    payBtn.style.color      = mode === 'pay' ? '#fff' : 'var(--text2)';
-  }
-  renderCalendar();
-  renderExtra();
+  attBtn.style.background = mode==='att' ? 'var(--red)' : 'none';
+  attBtn.style.color      = mode==='att' ? '#fff' : 'var(--text2)';
+  payBtn.style.background = mode==='pay' ? 'var(--red)' : 'none';
+  payBtn.style.color      = mode==='pay' ? '#fff' : 'var(--text2)';
+  renderCalendar(); renderExtra();
 }
 
 function changeMonth(d) {
   calMonth += d;
-  if (calMonth > 12) { calMonth = 1; calYear++; }
-  if (calMonth < 1)  { calMonth = 12; calYear--; }
-  renderCalendar();
-  renderExtra();
+  if (calMonth>12) { calMonth=1; calYear++; }
+  if (calMonth<1)  { calMonth=12; calYear--; }
+  renderCalendar(); renderExtra();
 }
 
 function renderCalendar() {
-  document.getElementById('cal-month-label').textContent =
-    `${calYear}년 ${MONTH_KR[calMonth-1]}`;
-
+  document.getElementById('cal-month-label').textContent = `${calYear}년 ${MONTH_KR[calMonth-1]}`;
   const firstDay    = new Date(calYear, calMonth-1, 1).getDay();
   const daysInMonth = new Date(calYear, calMonth, 0).getDate();
   const prevDays    = new Date(calYear, calMonth-1, 0).getDate();
 
-  let html = DOW.map(d => `<div class="cal-dow">${d}</div>`).join('');
+  let html = DOW.map(d=>`<div class="cal-dow">${d}</div>`).join('');
 
-  // 이전 달 빈칸
-  for (let i = 0; i < firstDay; i++) {
-    html += `<div class="cal-day other-month">
-               <div class="day-num">${prevDays - firstDay + 1 + i}</div>
+  // 이전달 빈칸
+  for (let i=0;i<firstDay;i++)
+    html += `<div class="cal-day other-month"><div class="day-num">${prevDays-firstDay+1+i}</div></div>`;
+
+  // 이번달
+  for (let d=1;d<=daysInMonth;d++) {
+    const ds      = `${calYear}-${String(calMonth).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = ds===todayStr;
+    let dots = '';
+
+    if (calMode==='pay') {
+      // 결제 달력: 이름 클릭 → 결제 내역 모달
+      const payers = members.filter(m=>m.nextPay===ds);
+      dots = payers.slice(0,3).map(m =>
+        `<div class="pay-dot ${m.paid?'done':'todo'} clickable"
+              onclick="event.stopPropagation(); openPayHistory(${m.id})"
+              title="${m.name} 결제내역 보기">${m.name[0]} ${m.name}</div>`
+      ).join('');
+      if (payers.length>3)
+        dots += `<div style="font-size:8px;color:var(--text2)">+${payers.length-3}명</div>`;
+    } else {
+      // 출석 달력: 숫자 클릭 → 명단 표시
+      const dailyAttendees = members.filter(m=>(m.attendance||[]).some(a=>a.date===ds));
+      if (dailyAttendees.length>0)
+        dots = `<div style="color:var(--blue);font-weight:700;font-size:12px;margin-top:4px;cursor:pointer;"
+                     onclick="showDailyList('${ds}')">${dailyAttendees.length}명</div>`;
+    }
+
+    html += `<div class="cal-day${isToday?' today':''}" onclick="calDayClick('${ds}')">
+               <div class="day-num">${d}</div>${dots}
              </div>`;
   }
 
-  // 이번 달 날짜
-  for (let d = 1; d <= daysInMonth; d++) {
-    const ds      = `${calYear}-${String(calMonth).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isToday = ds === todayStr;
-    let dots = '';
-
-    if (calMode === 'pay') {
-      // 결제 달력: 기존 로직 유지
-      const payers = members.filter(m => m.nextPay === ds);
-      dots = payers.slice(0, 2)
-        .map(m => `<div class="pay-dot ${m.paid ? 'done' : 'todo'}">${m.name[0]} ${m.name}</div>`)
-        .join('');
-      if (payers.length > 2)
-        dots += `<div style="font-size:8px;color:var(--text2)">+${payers.length-2}명</div>`;
-  } 
-
-
-else {
-  // 출석 달력: 중복 방지를 위해 오직 members 배열의 기록만 확인합니다.
-  const dailyAttendees = members.filter(m => 
-    (m.attendance || []).some(a => a.date === ds)
-  );
-  
-  if (dailyAttendees.length > 0) {
-    // 중복 제거를 위해 Set을 사용하여 이름 기준으로 다시 한번 필터링 (안전장치)
-    const uniqueNames = [...new Set(dailyAttendees.map(m => m.id))];
-    dots = `<div class="attendance-count" style="color:var(--blue); font-weight:700; font-size:12px; margin-top:4px;">${uniqueNames.length}명</div>`;
-  }
-}
-
-    // onclick 이벤트 추가: 클릭 시 showDailyList 함수 호출
-    html +=`<div class="cal-day${isToday ? ' today' : ''}" 
-              onclick="showDailyList('${ds}')" 
-              style="cursor:pointer;">
-           <div class="day-num">${d}</div>${dots}
-         </div>`;
-  }
-
-  // 다음 달 빈칸
-  const rem = (firstDay + daysInMonth) % 7;
-  if (rem > 0)
-    for (let d = 1; d <= 7 - rem; d++)
-      html += `<div class="cal-day other-month"><div class="day-num">${d}</div></div>`;
+  // 다음달 빈칸
+  const rem = (firstDay+daysInMonth)%7;
+  if (rem>0) for (let d=1;d<=7-rem;d++)
+    html += `<div class="cal-day other-month"><div class="day-num">${d}</div></div>`;
 
   document.getElementById('cal-grid').innerHTML = html;
 }
 
-// 달력 아래 추가 정보 (출석 통계 or 미결제 목록)
+// 달력 날짜 셀 클릭 (출석 모드에서만 명단)
+function calDayClick(ds) {
+  if (calMode==='att') showDailyList(ds);
+}
+
+// 날짜 클릭 → 출석 명단
+function showDailyList(dateStr) {
+  const extra = document.getElementById('cal-extra');
+  if (!extra) return;
+  const dailyAttendees = members.filter(m=>(m.attendance||[]).some(a=>a.date===dateStr));
+  let html = `
+    <div style="background:#fff;border-radius:14px;border:0.5px solid var(--border);padding:16px;margin-top:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;border-bottom:1px solid var(--border);padding-bottom:10px;">
+        <span style="font-weight:700;font-size:15px;color:var(--text)">📅 ${dateStr} 출석 명단</span>
+        <span style="background:var(--blue);color:#fff;padding:2px 8px;border-radius:10px;font-size:12px;">${dailyAttendees.length}명</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">`;
+  if (dailyAttendees.length>0) {
+    html += dailyAttendees.map(m=>`
+      <div style="background:var(--bg);padding:10px;border-radius:10px;border:0.5px solid var(--border);display:flex;align-items:center;gap:8px;">
+        <div style="width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;">${m.name[0]}</div>
+        <div>
+          <div style="font-weight:600;font-size:13px;color:var(--text)">${m.name}</div>
+          <div style="font-size:11px;color:var(--text2)">${m.classType||'일반'}</div>
+        </div>
+      </div>`).join('');
+  } else {
+    html += `<div style="grid-column:span 2;text-align:center;color:var(--text2);padding:20px;font-size:13px;">이 날짜에는 출석한 인원이 없습니다.</div>`;
+  }
+  html += `</div>
+    <button onclick="renderExtra()" style="width:100%;margin-top:15px;padding:8px;border:none;background:var(--bg);border-radius:8px;color:var(--text2);font-size:12px;cursor:pointer;">
+      ← 전체 월간 통계 보기
+    </button>
+  </div>`;
+  extra.innerHTML = html;
+}
+
+// 달력 하단 추가 정보
 function renderExtra() {
   const extra = document.getElementById('cal-extra');
   if (!extra) return;
-
-  if (calMode === 'att') {
-    // 출석 모드: 이번 달 수강생별 출석 횟수
-    const mo   = `${calYear}-${String(calMonth).padStart(2,'0')}`;
-    const rows = members
-      .map(m => ({
-        name: m.name,
-        cnt:  (m.attendance||[]).filter(a => a.date.startsWith(mo)).length
-      }))
-      .sort((a, b) => b.cnt - a.cnt);
-
+  if (calMode==='att') {
+    const mo = `${calYear}-${String(calMonth).padStart(2,'0')}`;
+    const rows = members.map(m=>({
+      name: m.name,
+      cnt: (m.attendance||[]).filter(a=>a.date.startsWith(mo)).length
+    })).sort((a,b)=>b.cnt-a.cnt);
     extra.innerHTML = `
-      <div style="background:#fff; border-radius:14px; border:0.5px solid var(--border); padding:16px;">
-        <div class="section-head" style="margin-bottom:10px">
-          📋 ${calYear}년 ${MONTH_KR[calMonth-1]} 출석 현황
-        </div>
-        ${rows.map(r => `
-          <div style="display:flex; justify-content:space-between; font-size:13px;
-                      padding:4px 0; border-bottom:0.5px solid var(--border);">
+      <div style="background:#fff;border-radius:14px;border:0.5px solid var(--border);padding:16px;">
+        <div class="section-head" style="margin-bottom:10px">📋 ${calYear}년 ${MONTH_KR[calMonth-1]} 출석 현황</div>
+        ${rows.map(r=>`
+          <div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:0.5px solid var(--border);">
             <span style="color:var(--text)">${r.name}</span>
-            <span style="font-weight:700; color:var(--blue)">${r.cnt}회</span>
+            <span style="font-weight:700;color:var(--blue)">${r.cnt}회</span>
           </div>`).join('')}
       </div>`;
-
-// 날짜 클릭 시 하단에 해당 날짜 출석 명단을 보여주는 함수
-function showDailyList(dateStr) {
-  // 출석 모드가 아니면 작동하지 않게 하려면 아래 주석 해제
-  // if (calMode !== 'att') return;
-
-  const extra = document.getElementById('cal-extra');
-  if (!extra) return;
-
-  // 해당 날짜 출석자 필터링
-  const dailyList = members.filter(m => 
-    (m.attendance || []).some(a => a.date === dateStr)
-  );
-
-  let listHtml = `
-    <div style="background:#fff; border-radius:14px; border:0.5px solid var(--border); padding:16px; margin-top:10px;">
-      <div class="section-head" style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
-        <span>📅 ${dateStr} 출석 명단</span>
-        <span style="font-size:12px; color:var(--blue);">${dailyList.length}명 출석</span>
-      </div>
-      <div style="display:flex; flex-wrap:wrap; gap:8px;">
-  `;
-
-  if (dailyList.length > 0) {
-    listHtml += dailyList.map(m => `
-      <div style="background:var(--bg); padding:6px 12px; border-radius:20px; font-size:13px; border:0.5px solid var(--border);">
-        <b style="color:var(--text)">${m.name}</b> <span style="color:var(--text2); font-size:11px;">${m.classType || ''}</span>
-      </div>
-    `).join('');
   } else {
-    listHtml += `<div style="color:var(--text2); font-size:13px; padding:10px;">출석 인원이 없습니다.</div>`;
-  }
-
-  listHtml += `</div></div>`;
-  
-  // 기존 extra 내용(통계)은 유지하고 그 아래에 명단을 띄우고 싶다면 innerHTML += ...
-  // 여기서는 클릭한 날짜의 명단을 확실히 보여주기 위해 새로 갈아끼웁니다.
-  extra.innerHTML = listHtml;
-}
-
-  } else {
-    // 결제 모드: 미결제 목록 + 결제 현황 요약
     renderUnpaid();
   }
 }
 
-// 미결제 목록 + 요약 (결제 모드에서만 사용)
-
+// 미결제 목록
 function renderUnpaid() {
   const extra = document.getElementById('cal-extra');
   if (!extra) return;
-
- const list = members
-  .filter(m => {
-    if (m.paid) return false; // 결제 완료자는 제외
-    const diffDays = Math.ceil((new Date(m.nextPay) - new Date(todayStr)) / 86400000);
-    return diffDays <= 7; // 일주일 전부터만 리스트에 노출
-  })
-  .sort((a, b) => new Date(a.nextPay) - new Date(b.nextPay));
+  const list = members.filter(m=>{
+    if (m.paid) return false;
+    const diffDays = Math.ceil((new Date(m.nextPay)-new Date(todayStr))/86400000);
+    return diffDays<=7;
+  }).sort((a,b)=>new Date(a.nextPay)-new Date(b.nextPay));
 
   const mo       = `${calYear}-${String(calMonth).padStart(2,'0')}`;
-  const paidCnt  = members.filter(m =>  m.paid && m.nextPay.startsWith(mo)).length;
-  const unpaidCnt= members.filter(m => !m.paid && m.nextPay.startsWith(mo)).length;
-  const totalFee = members.filter(m => m.nextPay.startsWith(mo))
-                          .reduce((s, m) => s + m.fee, 0);
+  const paidCnt  = members.filter(m=>m.paid&&m.nextPay.startsWith(mo)).length;
+  const unpaidCnt= members.filter(m=>!m.paid&&m.nextPay.startsWith(mo)).length;
+  const totalFee = members.filter(m=>m.nextPay.startsWith(mo)).reduce((s,m)=>s+m.fee,0);
 
   extra.innerHTML = `
     <div class="unpaid-card">
-      <div class="section-head">⚠ 미결제 수강생</div>
+      <div class="section-head">⚠ 미결제 수강생 (7일 이내)</div>
       <div class="unpaid-list">
-        ${list.length ? list.map(m => {
-          const dL  = Math.ceil((new Date(m.nextPay) - today) / 86400000);
-          const lbl = dL < 0 ? `${Math.abs(dL)}일 연체` : dL === 0 ? '오늘' : `D-${dL}`;
+        ${list.length ? list.map(m=>{
+          const dL = Math.ceil((new Date(m.nextPay)-today)/86400000);
+          const lbl = dL<0?`${Math.abs(dL)}일 연체`:dL===0?'오늘':`D-${dL}`;
           return `<div class="unpaid-item">
-            <div style="width:28px;height:28px;border-radius:50%;background:var(--red);
-                        color:#fff;display:flex;align-items:center;justify-content:center;
-                        font-size:12px;font-weight:700;flex-shrink:0">${m.name[0]}</div>
+            <div style="width:28px;height:28px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">${m.name[0]}</div>
             <div style="flex:1">
               <div class="unpaid-name">${m.name}</div>
-
               <div class="unpaid-due">${m.nextPay} · ${(m.fee/10000).toFixed(0)}만원</div>
             </div>
-            <span style="font-size:11px;font-weight:700;
-                         color:${dL<0?'var(--red)':'var(--amber)'}">${lbl}</span>
-            <button class="quick-pay-btn" onclick="markPaid(${m.id})">결제</button>
+            <span style="font-size:11px;font-weight:700;color:${dL<0?'var(--red)':'var(--amber)'}">${lbl}</span>
+            <button class="quick-pay-btn" onclick="quickPayAndRefresh(${m.id})">결제</button>
           </div>`;
         }).join('') : '<div class="empty-state">미결제 수강생 없음 🎉</div>'}
       </div>
     </div>
-    <div style="background:#fff; border-radius:14px; border:0.5px solid var(--border);
-                padding:16px; font-size:13px; color:var(--text2); line-height:1.9; margin-top:12px;">
+    <div style="background:#fff;border-radius:14px;border:0.5px solid var(--border);padding:16px;font-size:13px;color:var(--text2);line-height:1.9;margin-top:12px;">
       <div>결제 예정: <b style="color:var(--text)">${paidCnt+unpaidCnt}명</b></div>
       <div style="color:var(--green-dark)">✓ 완료: <b>${paidCnt}명</b></div>
       <div style="color:var(--red)">⚠ 미완료: <b>${unpaidCnt}명</b></div>
-      <div style="margin-top:8px;font-weight:700;color:var(--text)">
-        예상 수입: ${totalFee.toLocaleString()}원
-      </div>
+      <div style="margin-top:8px;font-weight:700;color:var(--text)">예상 수입: ${totalFee.toLocaleString()}원</div>
     </div>`;
 }
 
-
-function showDailyList(dateStr) {
-  const extra = document.getElementById('cal-extra');
-  if (!extra) return;
-
-  // 1. 해당 날짜에 출석한 수강생들만 추출
-  const dailyAttendees = members.filter(m => 
-    (m.attendance || []).some(a => a.date === dateStr)
-  );
-
-  // 2. 상단 타이틀 및 기본 디자인 설정
-  let listHtml = `
-    <div style="background:#fff; border-radius:14px; border:0.5px solid var(--border); padding:16px; margin-top:12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom: 1px solid var(--border); padding-bottom:10px;">
-        <span style="font-weight:700; font-size:15px; color:var(--text)">📅 ${dateStr} 출석 명단</span>
-        <span style="background:var(--blue); color:#fff; padding:2px 8px; border-radius:10px; font-size:12px;">${dailyAttendees.length}명</span>
-      </div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-  `;
-
-  // 3. 수강생 명단 카드 생성
-  if (dailyAttendees.length > 0) {
-    listHtml += dailyAttendees.map(m => `
-      <div style="background:var(--bg); padding:10px; border-radius:10px; border:0.5px solid var(--border); display:flex; align-items:center; gap:8px;">
-        <div style="width:24px; height:24px; border-radius:50%; background:var(--blue); color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;">
-          ${m.name[0]}
-        </div>
-        <div>
-          <div style="font-weight:600; font-size:13px; color:var(--text)">${m.name}</div>
-          <div style="font-size:11px; color:var(--text2)">${m.classType || '일반'}</div>
-        </div>
-      </div>
-    `).join('');
-  } else {
-    listHtml += `<div style="grid-column: span 2; text-align:center; color:var(--text2); padding:20px; font-size:13px;">이 날짜에는 출석한 인원이 없습니다.</div>`;
-  }
-
-  listHtml += `</div>
-    <button onclick="renderExtra()" style="width:100%; margin-top:15px; padding:8px; border:none; background:var(--bg); border-radius:8px; color:var(--text2); font-size:12px; cursor:pointer;">
-      ← 전체 월간 통계 보기
-    </button>
-  </div>`;
-  
-  // 4. 화면에 반영
-  extra.innerHTML = listHtml;
+function quickPayAndRefresh(id) {
+  togglePay(id);
+  renderCalendar();
+  renderUnpaid();
 }
 
-// Init
-
-loadData(); 
+// ────────────────────────────────────────────────
+// INIT
+// ────────────────────────────────────────────────
+loadData();
 renderMembers();
 renderCalendar();
-renderExtra();  
-renderUnpaid();
-updateStats();
-
+renderExtra();
 updateStats();
 renderAttendList();
 buildLockScreen('members');
